@@ -74,9 +74,9 @@ The software runs through five stages in sequence:
 
 | Setting | Default | Description |
 |---|---|---|
-| **Start Frame** | `8` | The reference frame index. All strain is measured relative to this frame. Set this past any initial settling or pre-contact frames so the reference state is stable. |
+| **Start Frame** | `0` | The reference frame index. All strain is measured relative to this frame. Set this past any initial settling or pre-contact frames so the reference state is stable. |
 | **End Frame** | *(blank = all)* | The last frame index to include in the analysis. Leave blank to process the entire stack. Useful for trimming noisy or irrelevant tail frames. |
-| **Frame Skip** | `2` | Take every Nth frame from the original stack. A value of `2` uses every other frame, `3` every third, etc. `1` uses all frames. Higher values speed up processing and increase the displacement between consecutive analyzed frames, which can improve correlation in slow-moving experiments, but reduces temporal resolution. Applied before the start/end frame indices. |
+| **Frame Skip** | `1` | Take every Nth frame from the original stack. A value of `2` uses every other frame, `3` every third, etc. `1` uses all frames. Higher values speed up processing and increase the displacement between consecutive analyzed frames, which can improve correlation in slow-moving experiments, but reduces temporal resolution. Applied before the start/end frame indices. |
 
 ### Strain Settings
 
@@ -97,7 +97,7 @@ The software runs through five stages in sequence:
 
 | Setting | Default | Description |
 |---|---|---|
-| **Mesh Spacing** | `25` | Distance in pixels between tracking grid points inside the ROI. Smaller values give a finer mesh with more triangles (higher spatial resolution, slower processing). Larger values give a coarser mesh (faster, smoother, but less detail). Typical range: 10-50 pixels. |
+| **Mesh Spacing** | `20` | Distance in pixels between tracking grid points inside the ROI. Smaller values give a finer mesh with more triangles (higher spatial resolution, slower processing). Larger values give a coarser mesh (faster, smoother, but less detail). Typical range: 10-50 pixels. |
 | **Show Triangle Edges** | `True` (checked) | Whether to draw black triangle outlines on the strain overlay in the viewer and exported video. Disable for a cleaner heatmap look; enable to see the mesh structure. |
 
 ### Tracking Settings
