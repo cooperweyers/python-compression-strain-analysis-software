@@ -15,18 +15,18 @@ from tkinter import filedialog, ttk
 # ======================
 
 defaults = {
-    "start_frame": 8,
+    "start_frame": 0,
     "end_frame": "",
     "strain_mode": "vonmises",
-    "mesh_spacing": 25,
+    "mesh_spacing": 20,
     "show_triangle_edges": True,
-    "delta_x": 40,
-    "delta_y": 40,
+    "delta_x": 30,
+    "delta_y": 30,
     "t_x": 15,
     "t_y": 15,
     "low_in": 28,
     "high_in": 250,
-    "frame_skip": 2,
+    "frame_skip": 1,
     "corr_threshold": 0.85,
     "max_disp": 12,
     "gaussian_blur": 3,
