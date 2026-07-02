@@ -4,10 +4,17 @@ A digital image correlation (DIC) tool for computing 2D strain fields from compr
 
 ## Table of Contents
 
-- [Requirements](#requirements)
-- [Installation](#installation)
+- [Which Version Should I Use?](#which-version-should-i-use)
+- [Running on Windows or Mac](#running-on-windows-or-mac)
+  - [Requirements](#requirements)
+  - [Installation](#installation)
+  - [Quick Start (Windows/Mac)](#quick-start-windowsmac)
+- [Running on Chromebook or Any Web Browser (Jupyter Notebook)](#running-on-chromebook-or-any-web-browser-jupyter-notebook)
+  - [Supported Platforms](#supported-platforms)
+  - [Quick Start (Notebook)](#quick-start-notebook)
+  - [Notebook Workflow](#notebook-workflow)
+  - [Downloading Your Results](#downloading-your-results)
 - [Supported File Formats](#supported-file-formats)
-- [Quick Start](#quick-start)
 - [Workflow Overview](#workflow-overview)
 - [Settings Reference](#settings-reference)
   - [Frame Settings](#frame-settings)
@@ -20,7 +27,22 @@ A digital image correlation (DIC) tool for computing 2D strain fields from compr
 - [Interactive Viewer Controls](#interactive-viewer-controls)
 - [Tips for Getting Good Results](#tips-for-getting-good-results)
 
-## Requirements
+---
+
+## Which Version Should I Use?
+
+| Your setup | File to use |
+|---|---|
+| Windows or Mac with Python installed | `python_compression_strain_analysis_software.py` |
+| Chromebook, tablet, or any device with a web browser | `strain_analysis_notebook.ipynb` (via Google Colab) |
+| Any computer without Python installed | `strain_analysis_notebook.ipynb` (via Google Colab) |
+| Local Jupyter / VS Code with Python installed | `strain_analysis_notebook.ipynb` |
+
+---
+
+## Running on Windows or Mac
+
+### Requirements
 
 - Python 3.8+
 - numpy
@@ -30,22 +52,13 @@ A digital image correlation (DIC) tool for computing 2D strain fields from compr
 - matplotlib
 - tkinter (included with most Python installations)
 
-## Installation
+### Installation
 
 ```bash
 pip install numpy tifffile opencv-python scipy matplotlib
 ```
 
-## Supported File Formats
-
-| Format | Extensions |
-|---|---|
-| TIFF image stacks | `.tiff`, `.tif` |
-| Video files | `.mov`, `.mp4`, `.avi`, `.mkv` |
-
-TIFF stacks can be grayscale or color (color frames are automatically converted to grayscale). Video files are read frame-by-frame and converted to grayscale.
-
-## Quick Start
+### Quick Start (Windows/Mac)
 
 ```bash
 python python_compression_strain_analysis_software.py
@@ -58,15 +71,89 @@ python python_compression_strain_analysis_software.py
 5. Wait for tracking and strain computation to finish.
 6. Browse the results in the interactive viewer and find exported files in the `results/` folder.
 
+---
+
+## Running on Chromebook or Any Web Browser (Jupyter Notebook)
+
+The file `strain_analysis_notebook.ipynb` is a Jupyter notebook version of the same software. It requires no local Python installation and runs entirely in a web browser. All settings are controlled through interactive widgets instead of a desktop GUI window.
+
+### Supported Platforms
+
+| Platform | Notes |
+|---|---|
+| **Google Colab** | Recommended for Chromebooks and any device without Python. Free, no setup required. |
+| **Kaggle Notebooks** | Free alternative to Colab. Upload the `.ipynb` and run it directly. |
+| **JupyterLab / Jupyter Notebook (local)** | Works on Windows/Mac if you have Jupyter installed (`pip install jupyterlab`). |
+| **VS Code with Jupyter extension** | Works on Windows/Mac with the Python and Jupyter extensions installed. |
+
+### Quick Start (Notebook)
+
+#### Google Colab (Chromebook / no Python required)
+
+1. Go to [colab.research.google.com](https://colab.research.google.com)
+2. Click **File → Upload notebook** and select `strain_analysis_notebook.ipynb`
+3. Run **Cell 1** to install the required packages
+4. Go to **Runtime → Restart runtime** after Cell 1 completes
+5. Run cells **2 through 9** in order from top to bottom
+
+#### Local Jupyter or VS Code
+
+1. Open `strain_analysis_notebook.ipynb` in JupyterLab or VS Code
+2. Run cells in order from top to bottom
+3. A system file dialog will open for file selection (same as the `.py` version)
+
+### Notebook Workflow
+
+The notebook is divided into labeled steps. Run each cell in order:
+
+| Cell | Step | What it does |
+|---|---|---|
+| Cell 1 | Install | Installs required packages (Colab only, run once) |
+| Cell 2 | Imports | Loads all libraries and detects whether you are on Colab |
+| Cell 3 | Settings | Displays interactive widgets to configure all analysis parameters |
+| Cell 4 | Upload File | Opens a file picker (Colab) or system file dialog (local) |
+| Cell 5 | Load Images | Reads and preprocesses the image stack using your settings |
+| Cell 6 | Draw ROI | Shows the image — click to place polygon points around your specimen |
+| Cell 6b | Confirm ROI | Reads the points you placed and passes them to the analysis |
+| Cell 7 | Run Analysis | Builds the mesh, tracks all points, and computes strain |
+| Cell 8 | Export | Saves CSV, plot, and video — downloads a single zip file on Colab |
+| Cell 9 | Viewer | Interactive slider to step through frames and inspect the strain field |
+
+### Downloading Your Results
+
+On **Google Colab**, Cell 8 automatically packages all three output files (CSV, plot, and video) into a single `.zip` file and downloads it to your computer. Allow the download if your browser asks.
+
+If the download does not trigger automatically, you can find the files manually:
+1. Click the **folder icon** in the left sidebar of Colab
+2. Navigate to the `results/` folder
+3. Right-click any file and select **Download**
+
+On **local Jupyter or VS Code**, files are saved directly to a `results/` subfolder next to the notebook file — no download step needed.
+
+---
+
+## Supported File Formats
+
+| Format | Extensions |
+|---|---|
+| TIFF image stacks | `.tiff`, `.tif` |
+| Video files | `.mov`, `.mp4`, `.avi`, `.mkv` |
+
+TIFF stacks can be grayscale or color (color frames are automatically converted to grayscale). Video files are read frame-by-frame and converted to grayscale.
+
+---
+
 ## Workflow Overview
 
 The software runs through five stages in sequence:
 
-1. **Settings & File Selection** -- A GUI window lets you configure all analysis parameters and select the input file.
+1. **Settings & File Selection** -- Configure all analysis parameters and select the input file.
 2. **Image Loading & Preprocessing** -- The image stack is loaded, contrast-adjusted, optionally blurred, and frame-skipped according to your settings.
 3. **ROI Selection & Mesh Generation** -- You draw a polygon on the start frame. A regular grid of tracking points is placed inside it, spaced by `mesh_spacing` pixels, and a Delaunay triangulation connects those points into a mesh.
 4. **Tracking & Strain Computation** -- Each point is tracked forward frame-by-frame using normalized cross-correlation template matching. Strain (ex, ey, gxy) is computed for every triangle element at every frame using a constant-strain triangle (CST) finite element formulation.
-5. **Export & Visualization** -- Results are saved to a timestamped folder inside `results/` and an interactive viewer opens.
+5. **Export & Visualization** -- Results are saved to a timestamped folder inside `results/`.
+
+---
 
 ## Settings Reference
 
@@ -123,17 +210,28 @@ These adjust the intensity range of the images before tracking. Pixel values are
 | **Low In** | `28` | Input intensity value mapped to 0 (black). Pixels at or below this value become black. Raising this clips dark noise and increases contrast. |
 | **High In** | `250` | Input intensity value mapped to 255 (white). Pixels at or above this value become white. Lowering this brightens dim features and increases contrast. |
 
-Adjust these if your images look too dark, washed out, or have low contrast. View the ROI selection frame to judge the effect -- it shows the contrast-adjusted image.
+Adjust these if your images look too dark, washed out, or have low contrast. View the ROI selection frame to judge the effect — it shows the contrast-adjusted image.
+
+---
 
 ## Drawing the Region of Interest
 
-After clicking **Run Analysis**, a matplotlib window displays the start frame. Draw a polygon around the area you want to analyze:
+**On Windows/Mac (`.py` version):** After clicking **Run Analysis**, a matplotlib window displays the start frame.
 
 - **Left-click** to place vertices
 - **Backspace** to undo the last vertex
 - **Enter** to close the polygon and proceed
 
+**On Colab/Notebook (Cell 6):** The start frame appears as an interactive image directly in the notebook.
+
+- **Click** on the image to place polygon points
+- Click **Undo Last** to remove the most recent point
+- Click **Clear All** to start over
+- Click **Finish ROI** when done, then run Cell 6b to confirm
+
 The polygon defines which area gets meshed and tracked. Points outside the ROI are ignored. You need at least 3 vertices. Draw tightly around the specimen to avoid wasting computation on background regions, but leave enough margin that the template patches around edge points don't extend outside the specimen.
+
+---
 
 ## Outputs
 
@@ -145,9 +243,13 @@ All results are saved to `results/<filename>_<timestamp>/`:
 | `<name>_strain_over_time.png` | Plot of the mean strain (in the selected mode) across all triangles vs. frame number. |
 | `<name>_strain.mp4` | Video with the strain field overlaid on the original images using a jet colormap. Color range is set by the 5th-95th percentile of strain values. Plays at 15 fps. |
 
+On **Google Colab**, these three files are bundled into a single `<name>_<timestamp>.zip` and downloaded automatically at the end of Cell 8.
+
+---
+
 ## Interactive Viewer Controls
 
-After export, an interactive matplotlib viewer opens showing the strain overlay:
+**Windows/Mac (`.py` version):** After export, an interactive matplotlib viewer opens.
 
 | Key | Action |
 |---|---|
@@ -155,7 +257,11 @@ After export, an interactive matplotlib viewer opens showing the strain overlay:
 | **Left arrow** or **A** | Previous frame |
 | **Q** or **Escape** | Close viewer |
 
+**Notebook (Cell 9):** A slider appears in the notebook output. Drag it left or right to step through frames.
+
 The colorbar shows the strain scale for the selected strain mode. The color range is fixed to the 5th-95th percentile of strain values across all frames.
+
+---
 
 ## Tips for Getting Good Results
 
@@ -167,3 +273,4 @@ The colorbar shows the strain scale for the selected strain mode. The color rang
 - **Frame skip**: If the specimen barely moves between frames, increase frame skip to get larger, more trackable displacements. If motion is fast, keep it at 1 or 2.
 - **Gaussian blur**: Helps with noisy microscopy images. Start with 3; increase for very noisy data, set to 0 for clean high-contrast images.
 - **Contrast**: Adjust `low_in` and `high_in` so the specimen texture is clearly visible in the ROI selection window. Poor contrast leads to poor tracking.
+- **Colab processing speed**: Google Colab free tier uses shared CPU resources, so analysis may be slower than running locally. If processing a long video, increase **Frame Skip** to reduce the number of frames analyzed.
