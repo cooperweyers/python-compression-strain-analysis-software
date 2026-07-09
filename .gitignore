@@ -1,0 +1,13 @@
+# Generated analysis output
+results/
+
+# Sample data / large media (not tracked; keep the repo lean)
+test files/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# macOS
+.DS_Store
