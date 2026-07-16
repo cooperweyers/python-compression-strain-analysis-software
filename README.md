@@ -81,8 +81,9 @@ No installation needed — this runs on Google's servers.
 4. When prompted, upload your video/stack, adjust the **Settings** and **ROI** cells, run
    tracking, view the result with the slider, and download the results zip.
 
-The notebook is also written to be **read through top to bottom** — the full algorithm is
-shown and explained in Part 1, so you can understand exactly what each step does.
+You mostly interact with just the **Settings** and **ROI** cells. The full algorithm lives
+in Part 1 but is **collapsed by default** — click any title bar to expand and read the code
+behind each step.
 
 ---
 
@@ -157,9 +158,10 @@ Pixel values are linearly rescaled from `[Low In, High In]` to `[0, 255]` and cl
 **Desktop app:** a window shows the start frame. **Left-click** to place polygon vertices,
 **Backspace** to undo, **Enter** to finish. At least 3 vertices are required.
 
-**Colab notebook:** you set the ROI with numbers instead of clicking — an **ellipse**
-(center + radii; easiest for round samples) or a **polygon** (list of corner points), with
-a preview so you can adjust until it fits.
+**Colab notebook:** the start frame appears as an image you **click on directly** to draw
+the polygon — click to place each corner, **Undo** / **Clear** as needed, then **Finish
+ROI** (at least 3 points). A preview confirms your selection. *(A center-and-radii ellipse
+fallback is included in case the click tool doesn't render in your environment.)*
 
 Draw tightly around the specimen, and — importantly — **keep the ROI clear of the edges
 where the sample contacts the grips/tweezers** (see [Tips](#tips-for-good-results)).
